@@ -1,0 +1,598 @@
+openapi: 3.0.0
+info:
+  title: Sistema API
+  version: 1.0.0
+  description: API para gerenciamento de professores, estudantes, projetos e habilidades
+
+tags:
+  - name: Professores
+    description: Operações relacionadas a professores
+  - name: Estudantes
+    description: Operações relacionadas a estudantes
+  - name: Projetos
+    description: Operações relacionadas a projetos
+  - name: Habilidades
+    description: Operações relacionadas a habilidades
+
+paths:
+  /professors:
+    get:
+      tags:
+        - Professores
+      summary: Lista todos os professores
+      description: Retorna uma lista de todos os professores cadastrados no sistema
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Professor'
+    post:
+      tags:
+        - Professores
+      summary: Cria um novo professor
+      description: Adiciona um novo professor ao sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+      responses:
+        '201':
+          description: Criado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Professor'
+        '400':
+          description: Dados inválidos
+
+  /professors/{id}:
+    get:
+      tags:
+        - Professores
+      summary: Obtém um professor específico
+      description: Retorna os detalhes de um professor específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do professor
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Professor'
+        '404':
+          description: Professor não encontrado
+    put:
+      tags:
+        - Professores
+      summary: Atualiza um professor
+      description: Atualiza os dados de um professor existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do professor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+      responses:
+        '200':
+          description: Atualizado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Professor'
+        '404':
+          description: Professor não encontrado
+        '400':
+          description: Dados inválidos
+    delete:
+      tags:
+        - Professores
+      summary: Remove um professor
+      description: Exclui um professor do sistema
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do professor
+      responses:
+        '204':
+          description: Removido com sucesso
+        '404':
+          description: Professor não encontrado
+
+  /students:
+    get:
+      tags:
+        - Estudantes
+      summary: Lista todos os estudantes
+      description: Retorna uma lista de todos os estudantes cadastrados no sistema
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+    post:
+      tags:
+        - Estudantes
+      summary: Cria um novo estudante
+      description: Adiciona um novo estudante ao sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Criado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: Dados inválidos
+
+  /students/{id}:
+    get:
+      tags:
+        - Estudantes
+      summary: Obtém um estudante específico
+      description: Retorna os detalhes de um estudante específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do estudante
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Student'
+        '404':
+          description: Estudante não encontrado
+    put:
+      tags:
+        - Estudantes
+      summary: Atualiza um estudante
+      description: Atualiza os dados de um estudante existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do estudante
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: Atualizado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Student'
+        '404':
+          description: Estudante não encontrado
+        '400':
+          description: Dados inválidos
+    delete:
+      tags:
+        - Estudantes
+      summary: Remove um estudante
+      description: Exclui um estudante do sistema
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do estudante
+      responses:
+        '204':
+          description: Removido com sucesso
+        '404':
+          description: Estudante não encontrado
+
+  /students/{id}/skills:
+    post:
+      summary: Adiciona habilidades a um estudante
+      tags:
+        - students
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do estudante
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                skills:
+                  type: array
+                  items:
+                    type: integer
+                  description: Array de IDs das habilidades a serem adicionadas
+              required:
+                - skills
+      responses:
+        '200':
+          description: Estudante atualizado com as novas habilidades
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Estudante não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /projects:
+    get:
+      tags:
+        - Projetos
+      summary: Lista todos os projetos
+      description: Retorna uma lista de todos os projetos cadastrados no sistema
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+    post:
+      tags:
+        - Projetos
+      summary: Cria um novo projeto
+      description: Adiciona um novo projeto ao sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Criado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Dados inválidos
+
+  /projects/{id}:
+    get:
+      tags:
+        - Projetos
+      summary: Obtém um projeto específico
+      description: Retorna os detalhes de um projeto específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do projeto
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: Projeto não encontrado
+    put:
+      tags:
+        - Projetos
+      summary: Atualiza um projeto
+      description: Atualiza os dados de um projeto existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do projeto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Atualizado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: Projeto não encontrado
+        '400':
+          description: Dados inválidos
+    delete:
+      tags:
+        - Projetos
+      summary: Remove um projeto
+      description: Exclui um projeto do sistema
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único do projeto
+      responses:
+        '204':
+          description: Removido com sucesso
+        '404':
+          description: Projeto não encontrado
+
+  /skills:
+    get:
+      tags:
+        - Habilidades
+      summary: Lista todas as habilidades
+      description: Retorna uma lista de todas as habilidades cadastradas no sistema
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Skill'
+    post:
+      tags:
+        - Habilidades
+      summary: Cria uma nova habilidade
+      description: Adiciona uma nova habilidade ao sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Skill'
+      responses:
+        '201':
+          description: Criado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Skill'
+        '400':
+          description: Dados inválidos
+
+  /skills/{id}:
+    get:
+      tags:
+        - Habilidades
+      summary: Obtém uma habilidade específica
+      description: Retorna os detalhes de uma habilidade específica
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único da habilidade
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Skill'
+        '404':
+          description: Habilidade não encontrada
+    put:
+      tags:
+        - Habilidades
+      summary: Atualiza uma habilidade
+      description: Atualiza os dados de uma habilidade existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único da habilidade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Skill'
+      responses:
+        '200':
+          description: Atualizado com sucesso
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Skill'
+        '404':
+          description: Habilidade não encontrada
+        '400':
+          description: Dados inválidos
+    delete:
+      tags:
+        - Habilidades
+      summary: Remove uma habilidade
+      description: Exclui uma habilidade do sistema
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID único da habilidade
+      responses:
+        '204':
+          description: Removido com sucesso
+        '404':
+          description: Habilidade não encontrada
+
+components:
+  schemas:
+    Professor:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único do professor
+        name:
+          type: string
+          description: Nome completo do professor
+        email:
+          type: string
+          format: email
+          description: Endereço de e-mail do professor
+        department:
+          type: string
+          description: Departamento ao qual o professor está vinculado
+        bio:
+          type: string
+          description: Breve biografia do professor
+      required:
+        - name
+        - email
+        - department
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único do estudante
+        registration:
+          type: string
+          description: Número de matrícula do estudante
+        name:
+          type: string
+          description: Nome completo do estudante
+        email:
+          type: string
+          format: email
+          description: Endereço de e-mail do estudante
+        course:
+          type: string
+          description: Curso no qual o estudante está matriculado
+        bio:
+          type: string
+          description: Breve biografia do estudante
+        skills:
+          type: array
+          items:
+            type: integer
+          description: IDs das habilidades do estudante
+      required:
+        - registration
+        - name
+        - email
+        - course
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único do projeto
+        title:
+          type: string
+          description: Título do projeto
+        description:
+          type: string
+          description: Descrição detalhada do projeto
+        type:
+          type: string
+          description: Tipo ou categoria do projeto
+        start_date:
+          type: string
+          format: date
+          description: Data de início do projeto
+        end_date:
+          type: string
+          format: date
+          description: Data de término prevista para o projeto
+        professor_id:
+          type: integer
+          description: ID do professor responsável pelo projeto
+      required:
+        - title
+        - description
+        - type
+        - start_date
+        - professor_id
+    Skill:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único da habilidade
+        title:
+          type: string
+          description: Título ou nome da habilidade
+        description:
+          type: string
+          description: Descrição detalhada da habilidade
+      required:
+        - title
+        - description
+    Error:
+      type: object
+      properties:
+        error:
+          type: string

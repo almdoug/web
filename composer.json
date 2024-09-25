@@ -1,0 +1,20 @@
+{
+    "name": "dougl/projetoweb",
+    "autoload": {
+        "psr-4": {
+            "Dougl\\Projetoweb\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "almdoug",
+            "email": "douglassurf2014@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.7",
+        "doctrine/annotations": "^2.0",
+        "symfony/yaml": "^6.4"
+    }
+}
