@@ -1,1 +1,1 @@
-{"nextId":2,"projects":[]}
+{"nextId":3,"projects":{"1":{"id":1,"title":"Oi","description":"aaaaa","type":"string","start_date":"2024-09-26","end_date":"2024-09-26","professor_id":1},"2":{"id":2,"title":"projetoAAAAA","description":"testando legalaaaa222","start_date":"2024-09-26","end_date":"2024-09-26","professor_id":1}}}

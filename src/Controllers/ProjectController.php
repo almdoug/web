@@ -53,6 +53,7 @@ class ProjectController {
         $project->description = $data['description'];
         $project->start_date = $data['start_date'];
         $project->end_date = $data['end_date'];
+        $project->professor_id = $data['professor_id'];
         
         try {
             $newProject = $this->projectService->create($project);
@@ -89,6 +90,7 @@ class ProjectController {
         $project->start_date = $data['start_date'];
         $project->end_date = $data['end_date'];
         $project->professor_id = $data['professor_id'];
+        
         $updatedProject = $this->projectService->update($args['id'], $project);
         if ($updatedProject) {
             $response->getBody()->write(json_encode($updatedProject));

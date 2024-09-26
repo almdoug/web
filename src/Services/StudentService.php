@@ -89,8 +89,23 @@ class StudentService {
             $student['skills'] = [];
         }
 
-        // Adicione as novas habilidades
-        $student['skills'] = array_unique(array_merge($student['skills'], $skillIds));
+        // Verifique se as novas habilidades existem e obtenha seus títulos
+        $skillService = new SkillService();
+        $existingSkills = $skillService->getAll();
+        $skillTitles = [];
+        foreach ($skillIds as $skillId) {
+            foreach ($existingSkills as $skill) {
+                if ($skill['id'] == $skillId) {
+                    $skillTitles[$skillId] = $skill['title'];
+                    break;
+                }
+            }
+        }
+
+        // Adicione as novas habilidades com seus títulos no formato JSON
+        foreach ($skillTitles as $skillId => $title) {
+            $student['skills'][$skillId] = $title;
+        }
         
         $data['students'][$studentId] = $student;
         $this->writeData($data);

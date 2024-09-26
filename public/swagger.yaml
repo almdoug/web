@@ -494,6 +494,7 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
           description: ID único do professor
         name:
           type: string
@@ -517,6 +518,7 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
           description: ID único do estudante
         registration:
           type: string
@@ -535,10 +537,9 @@ components:
           type: string
           description: Breve biografia do estudante
         skills:
-          type: array
-          items:
-            type: integer
-          description: IDs das habilidades do estudante
+          readOnly: true
+          type: object
+          description: Habilidades do estudante
       required:
         - registration
         - name
@@ -549,6 +550,7 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
           description: ID único do projeto
         title:
           type: string
@@ -581,6 +583,7 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
           description: ID único da habilidade
         title:
           type: string
