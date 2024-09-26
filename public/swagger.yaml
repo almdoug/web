@@ -229,7 +229,7 @@ paths:
     post:
       summary: Adiciona habilidades a um estudante
       tags:
-        - students
+        - Habilidades
       parameters:
         - in: path
           name: id
